@@ -1,65 +1,53 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
+void main() => runApp(MyApp());
+
+class Contact {
+  String name;
+  String phoneNumber;
+  Contact({this.name, this.phoneNumber});
 }
 
 class MyApp extends StatelessWidget {
-  @override
+
+  final List<Contact> contacts = [
+    Contact(name: "Ali", phoneNumber: "0534 344 3434"),
+    Contact(name: "Ahmet", phoneNumber: "0534 344 4646"),
+    Contact(name: "Murat", phoneNumber: "0534 344 4611"),
+  ];
+
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.yellow,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Phone Book"),
+          actions: <Widget>[IconButton(icon: Icon(Icons.add), onPressed: (){})]
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+        body: Container(
+          child: ListView.builder(
+          itemCount: contacts.length,
+          itemBuilder: (BuildContext context, int index){
+            Contact contact = contacts[index];
+            return Container(
+              padding: EdgeInsets.all(5),
+              child: Row(children: <Widget>[
+                CircleAvatar(
+                  backgroundImage: NetworkImage("https://galeri13.uludagsozluk.com/707/ekrem-imamoglu-nun-cedric-in-arkadasina-benzemesi_1837024.png"),
+                  child: Text(contact.name[0], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[Text(contact.name), Text(contact.phoneNumber)],
+                  ),
+                ),
+                Divider(),
+              ],)
+            );
+          }
+        )),
+      )
     );
   }
 }
